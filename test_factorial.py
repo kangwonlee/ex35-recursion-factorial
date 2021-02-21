@@ -52,7 +52,7 @@ def gen_imports(root:ast.AST):
             module = []
         elif isinstance(node, ast.ImportFrom):
             module = node.module.split('.')
-        elif isinstance(node, ast.FunctionDef):
+        elif isinstance(node, (ast.FunctionDef, ast.ClassDef)):
             function_result = gen_imports(node)
             if function_result:
                 result += function_result
