@@ -30,7 +30,7 @@ def test_factorial_result(int_n:int):
 
 
 def test_is_numpy_installed():
-    assert 'numpy' not in sys.modules
+    assert 'numpy' not in sys.modules, f"Check if the numpy is installed"
 
 
 @pytest.fixture(scope='session')
