@@ -117,5 +117,30 @@ def test_get_functions():
     assert 'g' in names
 
 
+@pytest.fixture
+def function_factorial(ast_function):
+    result = []
+    for name, func in ast_function:
+        if 'factorial' == name:
+            result.append((name, func))
+    return result
+
+
+def test_is_for_in_factorial(function_factorial):
+    for func_factorial in function_factorial:
+        ast_factorial = func_factorial[1]
+
+        for node in ast.iter_child_nodes(ast_factorial):
+            assert not isinstance(node, ast.For), "Check if factorial() is using for"
+
+
+def test_is_while_in_factorial(function_factorial):
+    for func_factorial in function_factorial:
+        ast_factorial = func_factorial[1]
+
+        for node in ast.iter_child_nodes(ast_factorial):
+            assert not isinstance(node, ast.While), "Check if factorial() is using While"
+
+
 if "__main__" == __name__:
     pytest.main()
