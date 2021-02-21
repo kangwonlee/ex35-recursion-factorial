@@ -83,5 +83,39 @@ def test_main_imports_numpy(imports):
         assert 'numpy' not in import_tuple.name, "Check if main.py imports numpy module"
 
 
+def get_functions(ast_root:ast.AST):
+    function_def_list = []
+
+    for node in ast.iter_child_nodes(ast_root):
+        if isinstance(node, ast.FunctionDef):
+            function_def_list.append((node.name, node))
+            function_def_list += get_functions(node)
+
+    return function_def_list            
+
+
+@pytest.fixture(scope='session')
+def ast_function(ast_root):
+    return get_functions(ast_root)
+
+
+def test_get_functions():
+    src = (
+        'def f(x):\n'
+        '   def g(y):\n'
+        '       return y * x\n'
+        '   return g(x)'
+    )
+
+    root = ast.parse(src)
+
+    result = get_functions(root)
+
+    names = [n[0] for n in result]
+
+    assert 'f' in names
+    assert 'g' in names
+
+
 if "__main__" == __name__:
     pytest.main()
