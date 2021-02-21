@@ -27,5 +27,9 @@ def test_factorial_result(int_n:int):
     assert main.factorial(int_n) == math.factorial(int_n), f"Check the return value : {main.factorial(int_n)}"
 
 
+def test_is_numpy_installed():
+    assert 'numpy' not in sys.modules
+
+
 if "__main__" == __name__:
     pytest.main()
