@@ -33,6 +33,16 @@ def test_is_numpy_installed():
     assert 'numpy' not in sys.modules
 
 
+@pytest.fixture(scope='session')
+def ast_root(filename):
+    # https://stackoverflow.com/a/9049549
+
+    with open(filename, 'rt') as f:
+        root = ast.parse(f.read(), filename)
+
+    return root
+
+
 def get_imports(filename):
     # https://stackoverflow.com/a/9049549
 
