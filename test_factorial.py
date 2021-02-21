@@ -36,36 +36,46 @@ def test_is_numpy_installed():
 def get_imports(filename):
     # https://stackoverflow.com/a/9049549
 
-    Import = collections.namedtuple("Import", ["module", "name", "alias"])
-
     with open(filename, 'rt') as f:
         root = ast.parse(f.read(), filename)
-    
+
+    return gen_imports(root)
+
+
+def gen_imports(root:ast.AST):
+    Import = collections.namedtuple("Import", ["module", "name", "alias"])
+
+    result = []
+
     for node in ast.iter_child_nodes(root):
         if isinstance(node, ast.Import):
             module = []
         elif isinstance(node, ast.ImportFrom):
             module = node.module.split('.')
+        elif isinstance(node, ast.FunctionDef):
+            return gen_imports(node)
         else:
             continue
 
         for n in node.names:
-            yield Import(module, n.name.split('.'), n.asname)
+            result.append(Import(module, n.name.split('.'), n.asname))
+
+    return result
 
 
 @pytest.fixture(scope="session")
 def imports(filename):
-    return list(get_imports(filename))
+    return get_imports(filename)
 
 
 def test_main_imports_math(imports):
     for import_tuple in imports:
-        assert 'math' not in import_tuple.module, "Check if main.py imports math module"
+        assert 'math' not in import_tuple.name, "Check if main.py imports math module"
 
 
 def test_main_imports_numpy(imports):
     for import_tuple in imports:
-        assert 'numpy' not in import_tuple.module, "Check if main.py imports numpy module"
+        assert 'numpy' not in import_tuple.name, "Check if main.py imports numpy module"
 
 
 if "__main__" == __name__:
