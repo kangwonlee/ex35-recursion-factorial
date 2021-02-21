@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ex25-string-kangwon-naver"
+name = "ex35-recursion-factorial"
 version = "0.1.0"
 description = ""
 authors = ["KangWon LEE <kangwon.lee.edu@gmail.com>"]

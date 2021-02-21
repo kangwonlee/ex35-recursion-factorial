@@ -1,14 +1,10 @@
-def first_word(a:str):
-    pass
-
-
-def last_word(a:str):
+def factorial(n:int):
     pass
 
 
 def main():
-    print('''first_word("파이썬 프로그래밍 언어") =''', first_word("파이썬 프로그래밍 언어"))
-    print('''last_word("Python Programming Language") =''', last_word("Python Programming Language"))
+    print('''5! =''', factorial(5))
+    print('''10! =''', factorial(10))
 
 
 if "__main__" == __name__:

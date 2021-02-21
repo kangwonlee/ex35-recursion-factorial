@@ -1,10 +1,7 @@
-# ex25 string
+# ex35 factorial by recursion 
 
-함수 `last_word()` 를 완성하시오. 문자열 `a`를 단어별로 나누고 마지막 단어를 반환하시오.<br>
-Complete the function `last_word()`.  Split string `a` into words and return the last one.
-
-함수 `first_word()` 를 완성하시오. 문자열 `a`를 단어별로 나누고 첫번째 단어를 반환하시오.<br>
-Complete the function `first_word()`.  Split string `a` into words and return the first one.
+`factorial()` 함수를 완성하시오.  1 부터 양의 정수 `n` 까지의 곱을 구하여 반환하시오.<br>
+Complete the function `factorial()`.  Return the product from 1 to a positive integer `n`.
 
 
 ## 제출하는 법<br>How to submit
