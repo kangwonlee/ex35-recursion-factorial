@@ -43,16 +43,8 @@ def ast_root(filename):
     return root
 
 
-def get_imports(filename):
+def get_imports(root:ast.AST):
     # https://stackoverflow.com/a/9049549
-
-    with open(filename, 'rt') as f:
-        root = ast.parse(f.read(), filename)
-
-    return gen_imports(root)
-
-
-def gen_imports(root:ast.AST):
     Import = collections.namedtuple("Import", ["module", "name", "alias"])
 
     result = []
@@ -63,7 +55,7 @@ def gen_imports(root:ast.AST):
         elif isinstance(node, ast.ImportFrom):
             module = node.module.split('.')
         elif isinstance(node, (ast.FunctionDef, ast.ClassDef)):
-            function_result = gen_imports(node)
+            function_result = get_imports(node)
             if function_result:
                 result += function_result
             continue
@@ -77,8 +69,8 @@ def gen_imports(root:ast.AST):
 
 
 @pytest.fixture(scope="session")
-def imports(filename):
-    return get_imports(filename)
+def imports(ast_root):
+    return get_imports(ast_root)
 
 
 def test_main_imports_math(imports):
